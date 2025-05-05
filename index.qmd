@@ -1,0 +1,89 @@
+---
+title: "Data Trends and Insights"
+author: "owid"
+date: "4 May 2025"
+date-format: "DD MMMM YYYY"
+toc: false
+number-sections: false
+format:
+  html: 
+    css: trial.css
+    fontcolor: '#024161'
+    backgroundcolor: '#f2f7f7'
+    linestretch: 1.7
+    embed-resources: true
+    code-fold: true
+    grid:
+      sidebar-width: 400px
+      body-width: 600px
+      margin-width: 400px
+      gutter-width: 1.5rem
+---
+
+## Origins of Aid
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(zoo)
+library(lubridate)
+library(scales)
+library(kableExtra)
+library(formattable)
+library(plotly)
+
+# Create a data frame with the provided data
+data_aid <- data.frame(
+  Source = c("Foreign aid from governments", "Foreign aid from private donors"),
+  Amount_billion = c(232, 11)
+)
+
+# Define a blue color palette
+blue_palette <- c("Foreign aid from governments" = "#66b3ff",  # Light blue for governments
+                  "Foreign aid from private donors" = "#003366") # Dark blue for private donors
+
+# Create the bar chart with the blue color palette
+ggplot(data_aid, aes(x = Source, y = Amount_billion, fill = Source)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  scale_fill_manual(values = blue_palette) + 
+  geom_text(aes(label = paste0("$", Amount_billion, " billion")), vjust = -0.5, size = 4) + # Add labels
+  labs(
+    title = "Foreign Aid from Governments and Private Donors",
+    caption = "Data source: OECD (2024) \n Reproduced from Daily Insights, OWID" # Add the data source
+  ) +
+  theme_minimal() + # Use a minimal theme
+  theme(
+    axis.title.x = element_blank(), # Remove x-axis title
+    axis.title.y = element_blank(), # Remove y-axis title
+    legend.title = element_blank(), # Remove legend title
+    legend.text = element_text(size = rel(0.8)),
+    legend.key.size = unit(0.6, "lines"), 
+    legend.justification = "center", 
+    legend.position = "bottom",
+    axis.text = element_text(color = "grey60"),
+    plot.title = element_text(size = rel(1.4), color = "black", face = "bold", hjust = 0.5),
+    plot.caption = element_text(size = rel(0.8), color = "grey50", hjust = 0),
+    panel.background = element_rect(fill = "#f2f7f7",
+                                colour = "#f2f7f7",
+                                size = 0, linetype = "solid"),
+    panel.border = element_blank(),
+    plot.background = element_rect(fill = "#f2f7f7", color = NA),
+    panel.grid.major.x = element_blank(), # Remove vertical grid lines
+    panel.grid.minor = element_blank()    # Remove minor grid lines
+  )
+```
+
+Foreign aid provides millions worldwide with life-saving treatments, emergency food supplies, and humanitarian assistance.
+
+But where does most of this money come from: the governments of rich countries, or wealthy individuals?
+
+95% of foreign aid comes from governments. Less than 5% comes from private philanthropic donors. This data focuses on larger private donations in the form of grants; it does not include the smaller, individual charity donations you or I might make.
+
+This means that those of us living in wealthy democracies — which is many of our readers — play a key role in determining the size of the global foreign aid budget. If we want more aid to reach the world’s poorest, we hold some power through the governments we elect and the priorities we demand of them.
+
+Most of our governments — including my own in the United Kingdom — do not meet the UN’s target of giving 0.7% of their gross national income in aid. In fact, the UK has recently announced plans to cut its aid budget significantly.
+
+Explore global data on who gives and receives foreign aid ->
